@@ -28,9 +28,18 @@ h1, .brand {
 }
 
 .container {
-    max-width: 960px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 1.5rem;
+}
+
+/* SECTION DIVIDER */
+.section-divider {
+    width: 120px;
+    height: 4px;
+    background-color: var(--accent);
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius);
 }
 
 /* HEADER DENGAN FLEXBOX */
@@ -177,6 +186,7 @@ h1, .brand {
 /* EXPERIENCES CSS */
 .experience {
     padding: 4.5rem 0 5rem;
+    background-color: var(--line);
 }
 
 .experience-section-title {
