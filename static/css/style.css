@@ -227,6 +227,54 @@ h1, .brand {
     text-align: justify;
 }
 
+/* PROJECTS PAGE */
+.project-section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.project-section h1 {
+    margin: 0.4rem 0 1.5rem;
+    font-size: 2rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.project-card {
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.project-card h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.project-description {
+    color: var(--text-muted);
+}
+
+.project-photos {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+}
+
+.project-photos img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+}
+
 /* FOOTER & RESPONSIVE */
 .site-footer {
     padding: 1.5rem;

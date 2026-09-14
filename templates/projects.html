@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - {{ name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="{% url 'main:show_main' %}" class="brand">{{ nickname }}</a>
+            <nav>
+                <a href="{% url 'main:show_main' %}">Profile</a>
+                <a href="{% url 'main:show_experience' %}">Experience</a>
+                <a href="{% url 'main:show_projects' %}">Projects</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+    <section class="project-section" id="projects">
+        <div class="container">
+            <p class="section-kicker">Hal-hal yang sedang &amp; sudah saya kerjakan</p>
+            <h1>Projects</h1>
+
+            <h2>Ongoing Projects</h2>
+            <div class="project-grid">
+                {% for project in ongoing_projects %}
+                    <article class="project-card">
+                        <h2>{{ project.title }}</h2>
+                        <p class="project-description">{{ project.description }}</p>
+                        {% if project.documentation_photos %}
+                            <div class="project-photos">
+                                {% for photo_url in project.documentation_photos %}
+                                    <img src="{{ photo_url }}" alt="Dokumentasi {{ project.title }}">
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </article>
+                {% empty %}
+                    <p class="empty-state">Belum ada proyek yang sedang berjalan.</p>
+                {% endfor %}
+            </div>
+
+            <h2>Completed Projects</h2>
+            <div class="project-grid">
+                {% for project in completed_projects %}
+                    <article class="project-card">
+                        <h2>{{ project.title }}</h2>
+                        <p class="project-description">{{ project.description }}</p>
+                        {% if project.documentation_photos %}
+                            <div class="project-photos">
+                                {% for photo_url in project.documentation_photos %}
+                                    <img src="{{ photo_url }}" alt="Dokumentasi {{ project.title }}">
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </article>
+                {% empty %}
+                    <p class="empty-state">Belum ada proyek yang telah selesai.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+        </div>
+    </footer>
+</body>
+</html>

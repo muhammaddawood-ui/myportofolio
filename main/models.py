@@ -24,3 +24,15 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+
+class Project(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    documentation_photos = models.JSONField(default=list, blank=True)
+    is_ongoing = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.title
+    

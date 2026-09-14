@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from main.models import Experience
+from main.models import Project
 
 
 class MainTest(TestCase):
@@ -11,6 +12,12 @@ class MainTest(TestCase):
             title="Asisten Dosen PBP",
             description="Membantu mahasiswa memahami pengembangan web.",
             category="part-time",
+        )
+
+        self.project = Project.objects.create(
+            title="Vittaloka",
+            description="tas tas thing thing",
+            documentation_photos=["raaaaaagh676767/placeholder"],
         )
 
     def test_main_url_is_accessible(self):
@@ -56,3 +63,35 @@ class MainTest(TestCase):
         self.assertFalse(self.experience.is_ongoing)
         self.assertContains(response, "Selesai")
         self.assertNotContains(response, "Sedang berlangsung")
+
+    def test_projects_model(self):
+        self.assertEqual(str(self.project), "Vittaloka Website")
+        self.assertTrue(self.project.is_ongoing)
+
+    def test_projects_page(self):
+        response = self.client.get(reverse("main:show_projects"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "projects.html")
+        self.assertContains(response, self.project.title)
+        self.assertContains(response, self.project.description)
+        self.assertContains(response, self.project.documentation_photos[0])
+        self.assertContains(response, "Ongoing Projects")
+        self.assertContains(response, "Completed Projects")
+        self.assertContains(response, f'href="{reverse("main:show_main")}"')
+
+    def test_empty_projects_page(self):
+        Project.objects.all().delete()
+        response = self.client.get(reverse("main:show_projects"))
+
+        self.assertContains(response, "Belum ada proyek yang sedang berjalan.")
+        self.assertContains(response, "Belum ada proyek yang telah selesai.")
+
+    def test_completed_projects(self):
+        self.project.is_ongoing = False
+        self.project.save()
+        
+        self.assertFalse(self.project.is_ongoing)
+
+    def test_ongoing_projects(self):
+        self.assertTrue(self.project.is_ongoing)
