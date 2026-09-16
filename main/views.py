@@ -29,6 +29,8 @@ def show_projects(request):
     ongoing_projects = Project.objects.filter(is_ongoing=True)
     completed_projects = Project.objects.filter(is_ongoing=False)
     context = {
+        "name": "Muhammad Dawood Alfathiin",
+        "nickname": "Dawood",
         'ongoing_projects': ongoing_projects,
         'completed_projects': completed_projects,
     }

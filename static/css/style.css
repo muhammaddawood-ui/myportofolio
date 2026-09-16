@@ -7,12 +7,13 @@
 }
 
 :root {
-    --ink: #1c1917;
-    --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
-    --line: #e3d9c9;
-    --text-muted: #6b6459;
+    --ink: #d8cbb0;
+    --paper: #17140f;
+    --accent: #f2a93b;
+    --accent-dark: #e8823a;
+    --line: #2a251d;
+    --text-muted: #8f8573;
+    --surface: #221d16;
     --radius: 4px;
 }
 
@@ -246,7 +247,7 @@ h1, .brand {
 
 .project-card {
     padding: 1.25rem;
-    background-color: #fff;
+    background-color: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
 }
@@ -329,7 +330,7 @@ h1, .brand {
 
 .experience-card {
     padding: 1.25rem;
-    background-color: #fff;
+    background-color: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
 }
