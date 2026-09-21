@@ -15,6 +15,7 @@
                         Tambah Proyek
                     </a>
                 </div>
+                
                 <form method="get"
                       action="{% url 'main:show_projects' %}"
                       class="project-search">
@@ -26,6 +27,7 @@
                            aria-label="Cari berdasarkan nama proyek">
                     <button type="submit" class="button">Cari</button>
                 </form>
+
                 <div class="experience-grid project-grid">
                     {% for project in project_list %}
                         <article class="experience-card">

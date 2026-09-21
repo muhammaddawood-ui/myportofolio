@@ -30,3 +30,21 @@ Sedangkan migrate mengeksekusi file migration yang ada, dan benar benar merubah 
 
 Deklarasi AI:
 Seperti pada Tugas 1, saya menggunakan AI untuk mempelajari konsep konsep, menggunakan Tutorial sebagai basis belajar. Namun dalam tahap ini, saya eksplisit menggunakan AI untuk mendeteksi kesalahan pada pembuatan class Project di models. Awalnya karena ketidaktelitian saya, is_ongoing sebagai function saya tidak sentuh (karena template dari is_ongoing experience), namun tidak sadar bertabrakan dengan variable is_ongoing yang baru saya buat, sehingga saat makemigrations dijalankan, is_ongoing masih dilihat sebagai function dan tidak terdeteksi perubahan. Saya memasukkan potongan kode tersebut ke AI, dan menemukan masalahnya. Baru setelah hal tersebut saya hapus, saya makemigrations ulang dan masalah terselesaikan ^^
+
+
+========== TUGAS 3 ========== 
+1. ModelForm dipakai karena field & constraint-nya (tipe data, max_length, choices) sudah didefinisikan sekali di models.py, jadi ProjectForm/ExperienceForm tinggal generte & validasi otomatis dari situ, form.save() juga langsung mapping ke database tanpa perlu diambil field satu-satu dari request.POST. {% csrf_token %} wajib karena mencegah serangan CSRF request palsu dari situs lain memakai login session says.
+
+2. JSON lebih ringkas dan "readable" dibanding XML (tanpa closing tag berulang), lebih kecil dan cepat diproses, serta native JS lewat JSON.parse()/JSON.stringify(). Karena itu ekosistem web modern, termasuk serializers.serialize("json", ...) yang saya pakai di get_experience_json, menjadikan JSON sebagai format default.
+
+3. Alur pengembalian data Experience dalam JSON:
+A. Pengguna GET ke /api/experience/.
+B. main/urls.py mencocokkan path ke fungsi get_experience_json.
+C. Experience.objects.all() mengambil data, hasilnya instance object Python, belum bisa dikirim lewat HTTP.
+D. serializers.serialize("json", experiences) mengubah instance tersebut jadi string JSON.
+E. String itu dibungkus HttpResponse(content_type="application/json") dan dikirim ke pengguna.
+
+Serialization diperlukan karena instance model Django adalah objek Python, sehingga tidak bisa langsung ditransfer lewat HTTP. serialization mengubahnya jadi format teks universal yang bisa dibaca sistem apapun.
+
+Deklarasi AI:
+Dalam Tugas 3 ini, diluar pemahaman konsep, saya eksplisit menggunakan AI dalam proses memahami ulang mekanisme JSON untuk menjawab pertanyaan reflektif 3. Untuk keseluruhan parts, saya kerjakan dengan memahami ulang tutorial, melakukan komparasi terhadap form yang sudah ada.
