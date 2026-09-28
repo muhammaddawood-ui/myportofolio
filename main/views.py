@@ -40,16 +40,21 @@ def show_experience(request):
     )
     experience_list = [experience.object for experience in experiences]
     title_query = request.GET.get("title", "").strip()
+    is_editor = request.user.groups.filter(name="Editor").exists()
 
     context = {
         "name": "Muhammad Dawood Alfathiin",
         "nickname": "Dawood",
         "experience_list": experience_list,
         "title_query": title_query,
+        "is_editor": is_editor,
     }
     return render(request, "experience.html", context)
 
 def create_experience(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     form = ExperienceForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -66,6 +71,10 @@ def create_experience(request):
 
 
 def update_experience(request, experience_id):
+    is_editor = request.user.groups.filter(name="Editor").exists()
+    if not (request.user.is_superuser or is_editor):
+        raise PermissionDenied
+    
     experience = get_object_or_404(Experience, pk=experience_id)
     form = ExperienceForm(request.POST or None, instance=experience)
 
@@ -83,7 +92,10 @@ def update_experience(request, experience_id):
     return render(request, "experience_form.html", context)
 
 
+@login_required(login_url="/login/")
 def delete_experience(request, experience_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
     experience = get_object_or_404(Experience, pk=experience_id)
 
     if request.method == "POST":
@@ -101,7 +113,7 @@ def get_experience_json(request):
     if title_query:
         experiences = experiences.filter(title__icontains=title_query)
 
-    experience_json = serializers.serialize("json", experiences)
+    experience_json = serializers.serialize("json", experiences, fields=("title", "description", "category", "thumbnail", "started_at", "ended_at"),)
     return HttpResponse(experience_json, content_type="application/json")
 
 
@@ -165,7 +177,7 @@ def get_projects_json(request):
     if title_query:
         projects = projects.filter(title__icontains=title_query)
 
-    projects_json = serializers.serialize("json", projects, use_natural_foreign_keys=True)
+    projects_json = serializers.serialize("json", projects, fields=("title", "description", "tech_stack", "project_url", "project_image_url"),)
     return HttpResponse(projects_json, content_type="application/json")
 
 # Register & Sign up
@@ -206,7 +218,7 @@ def logout_user(request):
     return response
 
 @login_required(login_url="/login/")
-def toggle_star(request, project_id):
+def toggle_star_project(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == "POST":
@@ -216,3 +228,15 @@ def toggle_star(request, project_id):
             project.starred_by.add(request.user)
 
     return redirect("main:show_projects")
+
+@login_required(login_url="/login/")
+def toggle_star_experience(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+
+    if request.method == "POST":
+        if request.user in experience.starred_by.all():
+            experience.starred_by.remove(request.user)
+        else:
+            experience.starred_by.add(request.user)
+
+    return redirect("main:show_experience")
