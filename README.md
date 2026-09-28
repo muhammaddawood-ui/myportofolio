@@ -48,3 +48,10 @@ Serialization diperlukan karena instance model Django adalah objek Python, sehin
 
 Deklarasi AI:
 Dalam Tugas 3 ini, diluar pemahaman konsep, saya eksplisit menggunakan AI dalam proses memahami ulang mekanisme JSON untuk menjawab pertanyaan reflektif 3. Untuk keseluruhan parts, saya kerjakan dengan memahami ulang tutorial, melakukan komparasi terhadap form yang sudah ada.
+
+
+========== TUGAS 4 ==========
+Deklarasi AI:
+Dalam Tugas 3 ini, diluar pemahaman konsep, saya eksplisit menggunakan AI:
+- memahami request.user.groups.filter(name="Editor").exists() - (pasted the thing) dan menimbang usesnya dengan request.user.has_perm(...)
+- how use_natural_foreign_keys work dengan serializer, dan bagaimana cara explicitly hide one of the key (dalam kasus ini, starred_by)
