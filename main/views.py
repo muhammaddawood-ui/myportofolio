@@ -54,6 +54,7 @@ def show_experience(request):
     }
     return render(request, "experience.html", context)
 
+@login_required(login_url="/login/")
 def create_experience(request):
     if not request.user.is_superuser:
         raise PermissionDenied
@@ -72,7 +73,7 @@ def create_experience(request):
     }
     return render(request, "experience_form.html", context)
 
-
+@login_required(login_url="/login/")
 def update_experience(request, experience_id):
     is_editor = request.user.groups.filter(name="Editor").exists()
     if not (request.user.is_superuser or is_editor):
