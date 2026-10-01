@@ -480,8 +480,9 @@ h1, .brand {
         width: 100%;
         text-align: center;
     }
+}
 
-    .project-form-modal {
+.project-form-modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -521,6 +522,7 @@ h1, .brand {
     overflow-y: auto;
     padding: 1.5rem;
     background: var(--paper);
+    color: var(--ink);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: 0 1rem 3rem rgba(28, 25, 23, 0.22);
@@ -574,7 +576,7 @@ h1, .brand {
         text-align: center;
     }
 }
-}
+
 
 /* FOOTER & RESPONSIVE */
 .site-footer {
