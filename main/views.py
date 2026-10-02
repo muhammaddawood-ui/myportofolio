@@ -73,6 +73,24 @@ def create_experience(request):
     }
     return render(request, "experience_form.html", context)
 
+@require_POST
+def create_experience_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan pengalaman."},
+            status=403,
+        )
+
+    form = ExperienceForm(request.POST)
+    if form.is_valid():
+        experience = form.save()
+        return JsonResponse(
+            {"message": "Pengalaman berhasil ditambahkan.", "pk": str(experience.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
 @login_required(login_url="/login/")
 def update_experience(request, experience_id):
     is_editor = request.user.groups.filter(name="Editor").exists()
