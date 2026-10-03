@@ -19,15 +19,14 @@
                     {% endif %}
                 </div>
 
-                <form method="get"
-                    action="{% url 'main:show_experience' %}"
-                    class="project-search">
+                <form id="experience-search-form" class="project-search">
                     <input type="search"
-                        name="title"
-                        value="{{ title_query }}"
-                        placeholder="Cari berdasarkan nama pengalaman"
-                        class="project-search__input"
-                        aria-label="Cari berdasarkan nama pengalaman">
+                           id="search-input"
+                           name="title"
+                           value="{{ title_query }}"
+                           placeholder="Cari berdasarkan nama pengalaman"
+                           class="project-search__input"
+                           aria-label="Cari berdasarkan nama pengalaman">
                     <button type="submit" class="button">Cari</button>
                 </form>
 
