@@ -2,7 +2,7 @@ Nama: Muhammad Dawood Alfathiin
 NPM: 2506610456
 Kelas: PBP F
 
-========== TUGAS 1 ========== 
+### TUGAS 1
 Pertanyaan Reflektif:
 1. Iya, <section>, <nav>, dan beberapa komponen lain telah digunakan. Keberadaan <section> memudahkan saya untuk memahami bagian-bagian seperti header/footer, dan saya personally mengadjust <nav>, menambahkan satu button navigasi "Experience". Hal ini tentu sangat membantu karena struktur webnya jadi mudah diakses, bisa lompat antar section. 
 2. Tantangan terbesarnya terletak pad amenyusun struktur Experience Title & Period/Span, karena title di layar sempit overflow sedangkan masih harus ada periode di sebelah kanan. Selain itu, jika periode terlalu sempit maka teksnya akan terpotong (misal, "April-", dibawahnya "current"). Di sini, saya memprioritaskan experience title denggan menggunakan flex-wrap, sehingga jika space layar tidak cukup, periode otomatis terdorong ke bawah (baris baru).
@@ -12,7 +12,7 @@ Deklarasi AI:
 Dalam menulis tugas ini, saya TIDAK MENYALIN/MENGAMBIL JAWABAN DARI AI. Saya menggunakan AI sebagai sarana mempelajari HTML & CSS, dan penyusunan website ini banyak melakukan trial & error (Add new section/div/p/text/dsb --> refresh --> edit) hingga tampilan websitenya sesuai dengan apa yang saya inginkan. Saya memulai dari mengupdate HTMLnya langsung (of which, sangat bodoh) hingga mulai membayangkan website sebagai sebuah lahan kosong yang perlu diisi kontainer-kontainer yang diatur CSS, mengambil referensi CV ATS standar sebagai struktur Experience, dan menuliskan sesuai kemampuan yang ada.
 
 
-========== TUGAS 2 ========== 
+### TUGAS 2
 1. Alur Pengguna:
 A. Pengguna membuka https://domain-lo.com/projects/ --> Browser kirim request ke server dengan path /projects
 B. Masuk ke portofolio/urls.py, lalu ke main/urls.py (non-admin), lalu fungsi show_projects dipanggil.
@@ -32,7 +32,7 @@ Deklarasi AI:
 Seperti pada Tugas 1, saya menggunakan AI untuk mempelajari konsep konsep, menggunakan Tutorial sebagai basis belajar. Namun dalam tahap ini, saya eksplisit menggunakan AI untuk mendeteksi kesalahan pada pembuatan class Project di models. Awalnya karena ketidaktelitian saya, is_ongoing sebagai function saya tidak sentuh (karena template dari is_ongoing experience), namun tidak sadar bertabrakan dengan variable is_ongoing yang baru saya buat, sehingga saat makemigrations dijalankan, is_ongoing masih dilihat sebagai function dan tidak terdeteksi perubahan. Saya memasukkan potongan kode tersebut ke AI, dan menemukan masalahnya. Baru setelah hal tersebut saya hapus, saya makemigrations ulang dan masalah terselesaikan ^^
 
 
-========== TUGAS 3 ========== 
+### TUGAS 3
 1. ModelForm dipakai karena field & constraint-nya (tipe data, max_length, choices) sudah didefinisikan sekali di models.py, jadi ProjectForm/ExperienceForm tinggal generte & validasi otomatis dari situ, form.save() juga langsung mapping ke database tanpa perlu diambil field satu-satu dari request.POST. {% csrf_token %} wajib karena mencegah serangan CSRF request palsu dari situs lain memakai login session says.
 
 2. JSON lebih ringkas dan "readable" dibanding XML (tanpa closing tag berulang), lebih kecil dan cepat diproses, serta native JS lewat JSON.parse()/JSON.stringify(). Karena itu ekosistem web modern, termasuk serializers.serialize("json", ...) yang saya pakai di get_experience_json, menjadikan JSON sebagai format default.
@@ -50,8 +50,22 @@ Deklarasi AI:
 Dalam Tugas 3 ini, diluar pemahaman konsep, saya eksplisit menggunakan AI dalam proses memahami ulang mekanisme JSON untuk menjawab pertanyaan reflektif 3. Untuk keseluruhan parts, saya kerjakan dengan memahami ulang tutorial, melakukan komparasi terhadap form yang sudah ada.
 
 
-========== TUGAS 4 ==========
+### TUGAS 4
 Deklarasi AI:
 Dalam Tugas 3 ini, diluar pemahaman konsep, saya eksplisit menggunakan AI:
 - memahami request.user.groups.filter(name="Editor").exists() - (pasted the thing) dan menimbang usesnya dengan request.user.has_perm(...)
 - how use_natural_foreign_keys work dengan serializer, dan bagaimana cara explicitly hide one of the key (dalam kasus ini, starred_by)
+
+
+### TUGAS 5
+1. Debouncing --> Memberikan jeda pada suatu eksekusi fungsi. Dalam kasus ini, diterapkan pada peencarian Experience (SEARCH_DEBOUNCE_DELAY = 300ms) agar request ke api/experience hanya dikirim sekali, setelah jeda 300ms after ketikan terakhir. Kasus tanpa debouncing, misal pencarian "magang" akan mengirimkan 6 request (1 req/changed query) yang akan membebani server.
+
+2. fetch() tidak mengembalikan hasil response, namun mengembalikan Promise dunaba await membuat fungsi menunggu Promise tersebut selesai, jadi response benar benar datang dari server. Jika tidak memakai awat, response masih berupa Promise dan if (!response.ok) pada .html akan error, walaupun respons server normal. 
+ 
+3. XSS adalah serangan dengan menyisipkan kode yang akan ditampilkan di pengguna lain, menyebabkan kode tersebut berjalan di browser korban dan berpura-pura menjadi/mencuri session korban. Template Django otomatis melakukan escaping setiap {{ variabel }}, sedangkan JsonResponse diterima dalam bentuk mentah dan diproses sebagai HTML sungguhan. Solusinya, pada buildExperienceCardElement di escapeHtml & pada server-side dilakukan cleansing dengan strip_tags: clean_title & clean_description di ExperienceForm.
+
+Deklarasi AI:
+Claude Sonnet 5.5 digunakan untuk:
+- Memahami konsep AJAX dan fetch() dengan memasukkan parts of tutorial yang hard-to-understand ke prompt, seperti merangkum XMLHttpRequest & JS fetch API.
+- Menemukan unused code pada projects.html
+- (Extra) Menemukan reason kenapa text color unreadable pada css
